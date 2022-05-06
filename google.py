@@ -1,3 +1,4 @@
+from distutils.util import split_quoted
 import gsearch
 
 def search (keyword):
@@ -14,9 +15,5 @@ def search (keyword):
     )
     client.assign_random_user_agent()
     urls = client.search()
-    return urls
+    return {"urls": urls}
 
-res = search("djezzy")
-if res:
-    print (res[0].get("title"))
-    

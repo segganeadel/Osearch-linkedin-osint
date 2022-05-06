@@ -11,33 +11,29 @@ def _req(company):
     resp.raise_for_status()
     return resp
 
-def search(term):   
+def emploiesearch(term):   
     resp = _req(term)
     soup = BeautifulSoup(resp.text, 'html.parser')
-    if soup.find('div', attrs={'id': 'search-result-empty'}) : 
-        print("Makach")
-        return NULL
+    if soup.find('div', attrs={'id': 'search-result-empty'}) :
+        return None
     else:
         result_block = soup.find_all('div', attrs={'class': 'row-fluid job-details pointer'})
+        jobs = []
         for result in result_block:
             link = result.find('a',href=True,title=True)
             if link:
-                print (link.get("title"))
-                print (link.get("href"))
-
                 adr =  result.find('span', attrs={'class': 'spaced-right'})
                 soc = result.find('h6', attrs={'class': 'ellipsis'}).span
                 date = result.find('span', attrs={'class': 'spaced-right pull-left'})
                 exp = result.find('span', attrs={'class': 'spaced-right phone-display-blok'})
-                print (soc.contents[0])
-                print (adr.contents[1])
-                print (date.contents[1][1:])
-                print (str(exp.contents[1])[1:-1])
-                print (exp.span.contents[0])
-                print("-------------")
-
-    print(len(result_block))
-
-
-
-search("Djezzy")
+                job = {
+                    'title': link.get("title"),
+                    'link': link.get("href"),
+                    'company': soc.contents[0],
+                    'adress': adr.contents[1],
+                    'date': date.contents[1][1:],
+                    'profile': str(exp.contents[1])[1:-1],
+                    'experience': exp.span.contents[0]
+                }
+                jobs.append(job)
+        return {"jobs": jobs}
