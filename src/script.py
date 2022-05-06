@@ -65,10 +65,10 @@ def googlesearch():
             finalcomp = []
             companies.append(company)
             while(len(companies)>0):
-                finalcomp.append(companies[0])
+                finalcomp.append(company[0])
                 for fcomp in finalcomp:
                     for company in companies:
-                        if company.get("url") == finalcomp[0].get("url"):
+                        if company.get("url") == finalcomp.get("url"):
                             if (fcomp.get("company") == "") and (company.get("company") != ""): fcomp["company"] = company.get("company")
                             if (fcomp.get("size") == "") and (company.get("size") != ""): fcomp["size"] = company.get("size")
                             if (fcomp.get("headquarters") == "") and (company.get("headquarters") != ""): fcomp["headquarters"] = company.get("headquarters")
