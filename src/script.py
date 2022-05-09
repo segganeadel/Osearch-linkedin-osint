@@ -48,7 +48,7 @@ def googlesearch():
                 tld = tld.split(".")
                 if len(tld) > 2: tld[0] = "www"
                 tld = '.'.join(tld)
-                u = u._replace(query="",netloc=tld).geturl()
+                u = u._replace(query="",netloc=tld,scheme="https").geturl()
 
                 company = {
                     "company": companyname,
@@ -62,23 +62,26 @@ def googlesearch():
                     "url": u,
                     "rank": url.get("rank")
                 }
-            finalcomp = []
             companies.append(company)
-            while(len(companies)>0):
-                finalcomp.append(company[0])
-                for fcomp in finalcomp:
-                    for company in companies:
-                        if company.get("url") == finalcomp.get("url"):
-                            if (fcomp.get("company") == "") and (company.get("company") != ""): fcomp["company"] = company.get("company")
-                            if (fcomp.get("size") == "") and (company.get("size") != ""): fcomp["size"] = company.get("size")
-                            if (fcomp.get("headquarters") == "") and (company.get("headquarters") != ""): fcomp["headquarters"] = company.get("headquarters")
-                            if (fcomp.get("industries") == "") and (company.get("industries") != ""): fcomp["industries"] = company.get("industries")
-                            if (fcomp.get("specialties") == "") and (company.get("specialties") != ""): fcomp[specialties] = company.get("specialties")
-                            if (fcomp.get("type") == "") and (company.get("type") != ""): fcomp["type"] = company.get("type")
-                            if (fcomp.get("about") == "") and (company.get("about") != ""): fcomp["about"] = company.get("about")
-                            if (fcomp.get("website") == "") and (company.get("website") != ""): fcomp["website"] = company.get("website")
-
-    return {"companies": companies}
+    print(len(companies))
+    finalcomp = []
+    while(len(companies)>0):
+        fcomp = companies.pop(0)
+        for company in companies:
+            if company.get("url") == fcomp.get("url"):
+                if (fcomp.get("company") == "") and (company.get("company") != ""): fcomp["company"] = company.get("company")
+                if (fcomp.get("size") == "") and (company.get("size") != ""): fcomp["size"] = company.get("size")
+                if (fcomp.get("headquarters") == "") and (company.get("headquarters") != ""): fcomp["headquarters"] = company.get("headquarters")
+                if (fcomp.get("industries") == "") and (company.get("industries") != ""): fcomp["industries"] = company.get("industries")
+                if (fcomp.get("specialties") == "") and (company.get("specialties") != ""): fcomp[specialties] = company.get("specialties")
+                if (fcomp.get("type") == "") and (company.get("type") != ""): fcomp["type"] = company.get("type")
+                if (fcomp.get("about") == "") and (company.get("about") != ""): fcomp["about"] = company.get("about")
+                if (fcomp.get("website") == "") and (company.get("website") != ""): fcomp["website"] = company.get("website")
+                companies.remove(company)
+        finalcomp.append(fcomp)
+    print(len(companies))
+    print(len(finalcomp))
+    return {"companies": finalcomp}
     
 res = googlesearch()
 print (res)
