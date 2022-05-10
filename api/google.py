@@ -1,14 +1,35 @@
 import json
 import re
 from urllib.parse import urlparse
+import gsearch
+
+
 
 f = open('results.json')
 results = json.load(f)
 
-def googlesearch():
-    companies = []
-    urls = results
+def search (keyword):
+    query = 'inurl:linkedin.com "company size" '+ keyword
+    client = gsearch.SearchClient(
+        query,
+        tbs="li:1",
+        max_search_result_urls_to_return=100,
+        http_429_cool_off_time_in_minutes=45,
+        http_429_cool_off_factor=1.5,
+        # proxy="socks5h://127.0.0.1:9050",
+        verbosity=1,
+        verbose_output=True,  # False (only URLs) or True (rank, title, description, and URL)
+    )
+    client.assign_random_user_agent()
+    urls = client.search()
+    return {"urls": urls}
+
+
+def googlesearch(keyword):
+    
+    urls = search(keyword)
     urls = results.get("urls")
+    companies = []
     for url in urls:
         if url: 
             companyname = url.get("title").split(" | ")[0]
@@ -45,9 +66,9 @@ def googlesearch():
                 u = url.get("url")
                 u = urlparse(u)
                 tld = u.netloc
-                tld = tld.split(".")
-                if len(tld) > 2: tld[0] = "www"
-                tld = '.'.join(tld)
+                #tld = tld.split(".")
+                #if len(tld) > 2: tld[0] = "www"
+                #tld = '.'.join(tld)
                 u = u._replace(query="",netloc=tld,scheme="https").geturl()
 
                 company = {
@@ -67,9 +88,9 @@ def googlesearch():
     finalcomp = []
     while(len(companies)>0):
         fcomp = companies.pop(0)
-        for company in companies:
-            if company.get("url") == fcomp.get("url"):
-                if (fcomp.get("company") == "") and (company.get("company") != ""): fcomp["company"] = company.get("company")
+        for company in reversed(companies):
+            if company.get("company") == fcomp.get("company"):
+                #if (fcomp.get("company") == "") and (company.get("company") != ""): fcomp["company"] = company.get("company")
                 if (fcomp.get("size") == "") and (company.get("size") != ""): fcomp["size"] = company.get("size")
                 if (fcomp.get("headquarters") == "") and (company.get("headquarters") != ""): fcomp["headquarters"] = company.get("headquarters")
                 if (fcomp.get("industries") == "") and (company.get("industries") != ""): fcomp["industries"] = company.get("industries")
