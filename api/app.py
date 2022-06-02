@@ -1,12 +1,18 @@
-from flask import Flask
+from flask import Flask, request
+from google import googlesearch
 from emploitic import emploiesearch
-from google import search
+from flask_cors import CORS
+
+
 app = Flask(__name__)
+
+CORS(app)
 
 @app.route('/emploitic')
 def emploie():
     return emploiesearch('djezzy')
 
-@app.route('/google')
+@app.route('/search')
 def searchg():
-    return search('djezzy')
+    #print(request.args)
+    return googlesearch(request.args["q"])

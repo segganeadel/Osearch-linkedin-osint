@@ -14,11 +14,12 @@ def _req(company):
 def emploiesearch(term):   
     resp = _req(term)
     soup = BeautifulSoup(resp.text, 'html.parser')
+    jobs = []
     if soup.find('div', attrs={'id': 'search-result-empty'}) :
-        return None
+        return {"jobs": jobs}
     else:
         result_block = soup.find_all('div', attrs={'class': 'row-fluid job-details pointer'})
-        jobs = []
+        
         for result in result_block:
             link = result.find('a',href=True,title=True)
             if link:

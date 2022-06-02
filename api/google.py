@@ -2,6 +2,8 @@ import json
 import re
 from urllib.parse import urlparse
 import gsearch
+from emploitic import emploiesearch
+
 
 
 
@@ -25,10 +27,13 @@ def search (keyword):
     return {"urls": urls}
 
 
+
 def googlesearch(keyword):
-    
-    urls = search(keyword)
-    urls = results.get("urls")
+    print(keyword)
+    if (keyword==""): return {"companies": []}
+    urls = results
+
+    urls = urls.get("urls")
     companies = []
     for url in urls:
         if url: 
@@ -100,9 +105,15 @@ def googlesearch(keyword):
                 if (fcomp.get("website") == "") and (company.get("website") != ""): fcomp["website"] = company.get("website")
                 companies.remove(company)
         finalcomp.append(fcomp)
-    print(len(companies))
-    print(len(finalcomp))
+
+    """for fcomp in finalcomp:
+        jobs = emploiesearch(fcomp.get("company")).get("jobs")
+        fcomp["jobs"] = []
+        for job in jobs:
+            if fcomp.get("company").casefold() == job.get("company").casefold():
+                fcomp["jobs"].append(job)
+        """
+
     return {"companies": finalcomp}
     
-res = googlesearch()
-print (res)
+
