@@ -13,40 +13,42 @@ const Results = (props) => {
   const [searchParams] = useSearchParams();
   const [companies, setCompanies] = useState('');
   const [query, setQuery] = useState(searchParams.get("q"));
-  const [notDone,setNotDone] = useState(true);
-  const [data,setData]=useState([]);
-
-
-
-
+  const [active, setActive] = useState(searchParams.get("active"));
 
   useEffect(() => {
-    localStorage.setItem("db", JSON.stringify(companies));
-    notDone && getCompanies(query);
+   
 
-  }, [companies]);
+  }, []);
 
-
-  const getCompanies = (query) => {
+  const getCompanies = async (query, active) => {
     const url = 'http://127.0.0.1:5000/search'
-    axios.get(url, { params: { q: query } })
-      .then((response) => {
-        setData(response.data);
-        setNotDone(false);
+    try {
+      const resp = await axios.get(url, {
+        params: {
+          a: active,
+          q: query
+        }
       })
-      .catch(error => console.error(`Errror : ${error}`))
+      setCompanies(resp.data);
+
+    }
+    catch (err) {
+      // Handle Error Here
+      console.error(err);
+    }
+  };
+  getCompanies(query, active);
+  if (companies.results.length === 0) { return (<NotFound />) }
+  else {
+    return (
+      <div>
+
+        <h1>Hello Results</h1>
+        {companies && <SearchEntries data={companies} active={active} />
+        }
+      </div>
+    )
   }
-
-console.log(companies)
-
-  return (
-    <div>
-      <h1>Hello Results</h1>
-      {companies &&<SearchEntries  setCompany = {props.setCompany} data={data} />}
-    </div>
-  )
-
-
 }
 
 export default Results

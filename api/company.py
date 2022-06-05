@@ -23,7 +23,7 @@ def page(company):
     return resp
 
 
-def company(link):
+def Company(id):
 
     company = {
         "companyname": "",
@@ -39,7 +39,7 @@ def company(link):
         "website": "",
         "url": ""
     }
-
+    link = "https://fr.linkedin.com/company" + id
     if (link == ""):
         return {"company": company}
     dork = "inurl:"
@@ -170,7 +170,7 @@ def company(link):
                     desc = result.p.text
                     s = re.search(r".+ \|.+ abonnés sur LinkedIn. (.+)",desc)
                     if s : company["about"] = s.group(1)                         
-    print(company)                    
+    return {"company":company}                   
                         
 
 
@@ -200,4 +200,3 @@ def company(link):
         return {"companies": results}
 
 """
-company("https://fr.linkedin.com/company/ooredoo-algerie")

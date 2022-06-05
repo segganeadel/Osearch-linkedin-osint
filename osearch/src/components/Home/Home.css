@@ -1,12 +1,35 @@
 * {
     margin: 0;
   }
-  
+
+
+.flexbox {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: flex-start;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+
+}
+.flexbox-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-content: stretch;
+  align-items: flex-start;
+  margin-top: 10%;
+}
   .search {
     flex: 1;
     display: flex;
     margin-top: 12%;
     flex-direction: column;
+    align-items: center;
   }
   
   .search img {
@@ -52,9 +75,10 @@
 
   .switch {
     position: relative;
-    display: flex;
+    display: inline-block;
     width: 60px;
     height: 34px;
+    margin-left: 12em;
   }
   
   /* Hide default HTML checkbox */
@@ -110,4 +134,10 @@
   
   .slider.round:before {
     border-radius: 50%;
+  }
+
+  .flexbox-row h3{
+
+  margin-top: 1%;  
+  margin-left: 20px;
   }

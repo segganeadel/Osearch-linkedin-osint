@@ -1,0 +1,3 @@
+<!ELEMENT adressBook (person)>
+<!ELEMENT person (name,email,link)>
+<!ATLIST id CDATA #REQUIRED gender 
