@@ -1,10 +1,11 @@
-import "./Company.css";
+import "./Company.scss";
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import Data from "../../components/Data/Data";
 import Loader from "../../components/loader/Loader";
 import Erreur from "../../components/erreur/Erreur";
+import Jobs from "../../components/jobs/Jobs";
 
 const Company = (props) => {
 
@@ -13,6 +14,8 @@ const Company = (props) => {
   const [company, setCompany] = useState('');
   const [wait, setWait] = useState(true);
   const [erreur, setErreur] = useState('');
+
+
   const location = useLocation();
 
 
@@ -42,47 +45,32 @@ const Company = (props) => {
     }
   }
 
-
-
-  const MoreInfo = () => {
-    const url = 'http://127.0.0.1:5000/linkedin'
-    var myName = prompt("Name Here:","")
-    var myAge = prompt("Age Here:","")
-    alert(myName +", you are "+ myAge +" years old!")
-    // try {
-    //   const resp = await axios.get(url, {
-    //     params: {
-    //       q: location.pathname
-    //     }
-    //   })
-    //   setCompany(resp.data);
-    //   setWait(false)
-    // }
-    // catch (err) {
-    //   // Handle Error Here
-    //   console.error(err);
-    //   setErreur(err)
-    //   setWait(false)
-
-    // }
+  if (wait) {
+    return (
+      <div className="load">
+        <Loader />
+      </div>
+    )
   }
-
-  return (
-    <div>
-      <div>
-        {
-          (wait) && (<Loader />) || ((erreur) && (<Erreur code={erreur.code} />)) || (<Data data={company} />)
-        }
+  else {
+    return (
+      <div className="flexbox">
+        <div className="title">
+          <h2>Resultats de la recherche :</h2>
+        </div>
+        <div>
+          {
+            ((erreur) && (<Erreur code={erreur.code} />)) || (<Data data={company} />)
+          }
+        </div>
+        <div >
+          <button>
+            Pus d'informations
+          </button>
+        </div>     
       </div>
-      <div className="button">
-        <button onClick={MoreInfo}>
-          Pus d'informations
-        </button>
-      </div>
-
-
-    </div>
-  )
+    )
+  }
 }
 
 export default Company

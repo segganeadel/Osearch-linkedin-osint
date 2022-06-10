@@ -4,7 +4,7 @@ import "./Data.css"
 const Data = (props) => {
     const infos = props.data.company
     return (
-        <div className="tableau_passive">
+        <div className="styled-table">
             <table>
                 <tbody>
                     <tr>

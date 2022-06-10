@@ -9,7 +9,6 @@ import Erreur from "../../components/erreur/Erreur";
 
 
 
-
 const Results = (props) => {
 
   const [searchParams] = useSearchParams();
@@ -43,17 +42,24 @@ const Results = (props) => {
     }
   };
 
-  console.log(companies)
-
-  return (
-    <div>
-      <div className="result_block">
-        {
-          (wait) && (<Loader/>) || ((erreur) && (<Erreur code={erreur.code}/>)) ||(<SearchEntries data={companies} />) 
-        }
-      </div>
+  if (wait) {
+    return(
+      <div >
+      <Loader />
     </div>
-  )
+    )}
+  else {
+    return (
+      <div>
+        <div className="result_block">
+          {
+            ((erreur) && (<Erreur code={erreur.code} />)) || (<SearchEntries data={companies} />)
+          }
+        </div>
+      </div>
+    )
+  }
+
 }
 
 

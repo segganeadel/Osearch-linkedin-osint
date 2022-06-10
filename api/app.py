@@ -15,5 +15,9 @@ def search():
     return searchpass(request.args["q"])
 
 @app.route('/company')
-def emploie():
+def comp():
     return Company(request.args["q"])
+
+@app.route('/jobs')
+def jobs():
+    return emploiesearch(request.args["q"])

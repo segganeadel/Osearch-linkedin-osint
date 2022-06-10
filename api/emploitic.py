@@ -12,7 +12,7 @@ def _req(company):
     return resp
 
 def emploiesearch(term):   
-    resp = _req(term)
+    resp = _req(term[1:])
     soup = BeautifulSoup(resp.text, 'html.parser')
     jobs = []
     if soup.find('div', attrs={'id': 'search-result-empty'}) :
