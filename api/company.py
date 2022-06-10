@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 from requests import get
 import re
 from urllib.parse import urlparse
+import json
 
 
 usr_agent = {
@@ -170,8 +171,9 @@ def Company(id):
                     desc = result.p.text
                     s = re.search(r".+ \|.+ abonnés sur LinkedIn. (.+)",desc)
                     if s : company["about"] = s.group(1)                         
-    return {"company":company}                   
-                        
+    dict = {"company":company}
+    json_object = json.dumps(dict)
+    return json_object                        
 
 
 """   

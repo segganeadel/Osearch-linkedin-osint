@@ -1,9 +1,11 @@
-import "./Results.css";
+import "./Results.scss";
 import { Link, useSearchParams } from 'react-router-dom';
 import axios from 'axios'
-import SearchEntries from "./SearchEntries";
+import SearchEntries from "../../components/searchentries/SearchEntries";
 import NotFound from "../NotFound/NotFound";
 import { useEffect, useState } from "react";
+import Loader from "../../components/loader/Loader";
+import Erreur from "../../components/erreur/Erreur";
 
 
 
@@ -12,43 +14,47 @@ const Results = (props) => {
 
   const [searchParams] = useSearchParams();
   const [companies, setCompanies] = useState('');
+  const [wait, setWait] = useState(true)
+  const [erreur, setErreur] = useState('');
   const [query, setQuery] = useState(searchParams.get("q"));
-  const [active, setActive] = useState(searchParams.get("active"));
 
   useEffect(() => {
-   
-
+    getCompanies(query);
   }, []);
 
-  const getCompanies = async (query, active) => {
+  const getCompanies = async (query) => {
     const url = 'http://127.0.0.1:5000/search'
+
+
     try {
       const resp = await axios.get(url, {
         params: {
-          a: active,
           q: query
         }
       })
       setCompanies(resp.data);
-
+      setWait(false)
     }
     catch (err) {
       // Handle Error Here
       console.error(err);
+      setErreur(err)
+      setWait(false)
     }
   };
-  getCompanies(query, active);
-  if (companies.results.length === 0) { return (<NotFound />) }
-  else {
-    return (
-      <div>
 
-        <h1>Hello Results</h1>
-        {companies && <SearchEntries data={companies} active={active} />
+  console.log(companies)
+
+  return (
+    <div>
+      <div className="result_block">
+        {
+          (wait) && (<Loader/>) || ((erreur) && (<Erreur code={erreur.code}/>)) ||(<SearchEntries data={companies} />) 
         }
       </div>
-    )
-  }
+    </div>
+  )
 }
+
 
 export default Results

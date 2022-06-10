@@ -1,7 +1,7 @@
 import './App.css';
-import Home from './components/Home/Home';
-import Results from './components/Results/Results';
-import Company from './components/Company/Company'
+import Home from './pages/Home/Home';
+import Results from './pages/Results/Results';
+import Company from './pages/Company/Company'
 import {
   BrowserRouter,
   Routes,
@@ -17,7 +17,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/results" element={<Results />} />
-          <Route path="/:company" element={<Company />} />
+          <Route path="/:company" element={<Company />} >
+            <Route />
+          </Route>
+
         </Routes>
       </BrowserRouter>
     </div>

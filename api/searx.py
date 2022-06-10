@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from requests import get
+import json
 
 
 usr_agent = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36'}
@@ -37,7 +38,7 @@ def searchpass(query):
                 desc = result.p.text
                 id = result.h3.a["href"].split("linkedin.com/company/")[1]
 
-                result = {
+                result_info = {
                     "rank":index,
                     "name":companyname,
                     "link":link,
@@ -46,6 +47,13 @@ def searchpass(query):
                 }
             notFound = True
             for item in results:
-                if item.get("link") in result.get("link"): notFound = False
-            if notFound: results.append(result)
-        return {"results" :results}
+                if item.get("link") in result_info.get("link"): 
+                    notFound = False
+            if notFound: 
+                results.append(result_info)
+
+        dict = {"results" :results}
+        json_object = json.dumps(dict)
+        return json_object
+
+#print(searchpass("djezzy"))

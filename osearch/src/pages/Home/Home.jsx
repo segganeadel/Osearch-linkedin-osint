@@ -1,15 +1,9 @@
 import logo from "../../images/magnifier.png"
-import "./Home.css"
+import "./Home.scss"
 
 
 const Home = () => {
-  // const [inputText, setInputText] = useState("");
-  // let inputHandler = (e) => {
-  //   //convert input text to lower case
-  // var lowerCase = e.target.value.toLowerCase();
-  // setInputText(lowerCase);
-  // console.log(lowerCase);
-  // }
+
   return (
     <div className="flexbox">
       <div className="search">
@@ -20,13 +14,6 @@ const Home = () => {
           </div>
           <div className="search__buttons">
             <button type="submit">Recherche</button>
-          </div>
-          <div className="flexbox-row">
-          <label className="switch">
-            <input type="checkbox" name="active" />
-            <span className="slider round"></span>
-          </label>
-          <h3>Recherche active</h3>
           </div>
         </form>
       </div>
